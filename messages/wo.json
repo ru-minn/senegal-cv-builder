@@ -1,0 +1,178 @@
+{
+  "common": {
+    "name": "Tur",
+    "firstName": "Sant",
+    "lastName": "Sant bu mag",
+    "email": "Email",
+    "phone": "Téléphone",
+    "address": "Adres",
+    "city": "Dëkk",
+    "country": "Réew",
+    "postalCode": "Code postal",
+    "dateOfBirth": "Bés bu jibbu",
+    "nationality": "Nit ku réew",
+    "save": "Duggal",
+    "cancel": "Fey",
+    "edit": "Soppi",
+    "delete": "Dindi",
+    "add": "Yokk",
+    "download": "Yeb",
+    "upload": "Yeb",
+    "loading": "Dañu ngi def...",
+    "error": "Njumte",
+    "success": "Baax",
+    "back": "Dellu",
+    "next": "Jëm kanam",
+    "previous": "Dellu ginnaaw",
+    "reset": "Tambali",
+    "steps": "Yoon",
+    "step": "Tàpp",
+    "confirmReset": "Dëgg nga bëgg a tambali sa CV bi? Mbir mépp dañu ñu réer.",
+    "freeBadge": "100% Ñaari",
+    "startButton": "Sos sama CV",
+    "chooseLanguage": "Tann làkk",
+    "whyChooseUs": "Lu tax nga tann CV Senegal?",
+    "feature1Title": "Dëssinu Bu Rafet",
+    "feature1Desc": "Modèlu CV yi doy na ci màrse bu Senegaal ak Afrik.",
+    "feature2Title": "Yeb PDF",
+    "feature2Desc": "Yeb sa CV ci PDF bu rafet, jëgël a timpri walla yónne.",
+    "feature3Title": "Làkk yu bari",
+    "feature3Desc": "Sos sa CV ci Français, English walla Wolof.",
+    "feature4Title": "Ci telefon",
+    "feature4Desc": "Jëfandikool ci sa telefon walla tablette, fu nekk.",
+    "ctaTitle": "Jëgël sos sa CV?",
+    "ctaSubtitle": "Bokkal ak junni Senegaalais yi sos na CV ci ñaari.",
+    "createNow": "Sos léegi",
+    "footerText": "Sos na ak cofeel ngir Senegal"
+  },
+  "cv": {
+    "title": "Sos CV Senegal",
+    "subtitle": "Sos bu yomb CV bu rafet, bu doy ci liggéey ci Senegal",
+    "download": "Yeb PDF",
+    "preview": "Xool",
+    "print": "Móol"
+  },
+  "sections": {
+    "personalInfo": "Xam-xam bu am solo",
+    "contact": "Jokkoo",
+    "objective": "Lu bëgg",
+    "experience": "Liggéey",
+    "education": "Jàng",
+    "skills": "Xel",
+    "languages": "Làkk",
+    "certifications": "Sertifikaa",
+    "projects": "Projee",
+    "references": "Référence",
+    "hobbies": "Fekkeel",
+    "summary": "Résumé"
+  },
+  "personalInfo": {
+    "photo": "Nataal",
+    "uploadPhoto": "Yeb nataal",
+    "removePhoto": "Dindi nataal",
+    "title": "Titre professionnel",
+    "website": "Site web",
+    "linkedin": "LinkedIn",
+    "github": "GitHub"
+  },
+  "objective": {
+    "placeholder": "Def sa dund bu liggéey..."
+  },
+  "experience": {
+    "addExperience": "Yokk liggéey",
+    "position": "Position",
+    "company": "Bopp liggéey",
+    "location": "Bes",
+    "startDate": "Fan mu tàmbalee",
+    "endDate": "Fan mu jeexee",
+    "current": "Liggéey bu leegi",
+    "description": "Xamal",
+    "responsibilities": "Responsabilités",
+    "achievements": "Lii ñu def"
+  },
+  "education": {
+    "addEducation": "Yokk jàng",
+    "degree": "Diplôme",
+    "institution": "Daara",
+    "fieldOfStudy": "Lii mu jàng",
+    "location": "Bes",
+    "startDate": "Fan mu tàmbalee",
+    "endDate": "Fan mu jeexee",
+    "current": "Dafa ngi jàng",
+    "grade": "Note",
+    "description": "Xamal"
+  },
+  "skills": {
+    "addSkill": "Yokk xel",
+    "skillName": "Tur bu xel",
+    "level": "Nëbbël",
+    "category": "Kategori",
+    "levels": {
+      "beginner": "Tàmbalee",
+      "intermediate": "Intermediaire",
+      "advanced": "Bu gën a gëna",
+      "expert": "Expert"
+    },
+    "categories": {
+      "technical": "Technique",
+      "soft": "Soft skills",
+      "language": "Làkk",
+      "other": "Yeneen"
+    }
+  },
+  "languages": {
+    "addLanguage": "Yokk làkk",
+    "language": "Làkk",
+    "proficiency": "Nëbbël bu làkk",
+    "proficiencyLevels": {
+      "native": "Làkk bu dëkk",
+      "fluent": "Gëna na lool",
+      "advanced": "Baax na lool",
+      "intermediate": "Baax",
+      "beginner": "Tàmbalee"
+    }
+  },
+  "certifications": {
+    "addCertification": "Yokk sertifikaa",
+    "name": "Tur",
+    "issuer": "Kuy dëwul",
+    "date": "Fan",
+    "expiryDate": "Fan bu jeexe",
+    "credentialId": "ID",
+    "url": "URL"
+  },
+  "projects": {
+    "addProject": "Yokk projee",
+    "name": "Tur bu projee",
+    "role": "Rôle",
+    "description": "Xamal",
+    "technologies": "Technologies yi",
+    "url": "URL bu projee",
+    "startDate": "Fan mu tàmbalee",
+    "endDate": "Fan mu jeexee"
+  },
+  "references": {
+    "addReference": "Yokk référence",
+    "name": "Tur",
+    "position": "Position",
+    "company": "Bopp liggéey",
+    "email": "Email",
+    "phone": "Téléphone",
+    "relationship": "Relation"
+  },
+  "templates": {
+    "title": "Tann modèl",
+    "modern": "Bu bees",
+    "classic": "Classique",
+    "creative": "Créatif",
+    "minimal": "Minimal",
+    "professional": "Professionnel"
+  },
+  "validation": {
+    "required": "Bii dafa waar",
+    "invalidEmail": "Email bu baaxul",
+    "invalidPhone": "Numéro téléphone bu baaxul",
+    "invalidUrl": "URL bu baaxul",
+    "invalidDate": "Fan bu baaxul"
+  }
+}

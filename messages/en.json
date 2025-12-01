@@ -1,0 +1,178 @@
+{
+  "common": {
+    "name": "Name",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "phone": "Phone",
+    "address": "Address",
+    "city": "City",
+    "country": "Country",
+    "postalCode": "Postal Code",
+    "dateOfBirth": "Date of Birth",
+    "nationality": "Nationality",
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "add": "Add",
+    "download": "Download",
+    "upload": "Upload",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "reset": "Reset",
+    "steps": "Steps",
+    "step": "Step",
+    "confirmReset": "Are you sure you want to reset your CV? All data will be lost.",
+    "freeBadge": "100% Free",
+    "startButton": "Create my CV",
+    "chooseLanguage": "Choose language",
+    "whyChooseUs": "Why choose CV Senegal?",
+    "feature1Title": "Professional Designs",
+    "feature1Desc": "Modern and elegant CV templates adapted to the Senegalese and African market.",
+    "feature2Title": "PDF Export",
+    "feature2Desc": "Download your CV as a high-quality PDF, ready to print or send.",
+    "feature3Title": "Multilingual",
+    "feature3Desc": "Create your CV in French, English, or Wolof according to your needs.",
+    "feature4Title": "Mobile Friendly",
+    "feature4Desc": "Use the app on your phone or tablet, anywhere.",
+    "ctaTitle": "Ready to create your CV?",
+    "ctaSubtitle": "Join thousands of Senegalese who have already created their professional CV for free.",
+    "createNow": "Create now",
+    "footerText": "Created with love for Senegal"
+  },
+  "cv": {
+    "title": "CV Builder Senegal",
+    "subtitle": "Easily create a professional and elegant CV, tailored to the Senegalese job market",
+    "download": "Download PDF",
+    "preview": "Preview",
+    "print": "Print"
+  },
+  "sections": {
+    "personalInfo": "Personal Information",
+    "contact": "Contact",
+    "objective": "Profile / Objective",
+    "experience": "Work Experience",
+    "education": "Education",
+    "skills": "Skills",
+    "languages": "Languages",
+    "certifications": "Certifications",
+    "projects": "Projects",
+    "references": "References",
+    "hobbies": "Hobbies",
+    "summary": "Summary"
+  },
+  "personalInfo": {
+    "photo": "Photo",
+    "uploadPhoto": "Upload Photo",
+    "removePhoto": "Remove Photo",
+    "title": "Professional Title",
+    "website": "Website",
+    "linkedin": "LinkedIn",
+    "github": "GitHub"
+  },
+  "objective": {
+    "placeholder": "Briefly describe your professional objectives..."
+  },
+  "experience": {
+    "addExperience": "Add Experience",
+    "position": "Position",
+    "company": "Company",
+    "location": "Location",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "current": "Current Position",
+    "description": "Description",
+    "responsibilities": "Responsibilities",
+    "achievements": "Achievements"
+  },
+  "education": {
+    "addEducation": "Add Education",
+    "degree": "Degree",
+    "institution": "Institution",
+    "fieldOfStudy": "Field of Study",
+    "location": "Location",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "current": "Currently Enrolled",
+    "grade": "Grade",
+    "description": "Description"
+  },
+  "skills": {
+    "addSkill": "Add Skill",
+    "skillName": "Skill Name",
+    "level": "Level",
+    "category": "Category",
+    "levels": {
+      "beginner": "Beginner",
+      "intermediate": "Intermediate",
+      "advanced": "Advanced",
+      "expert": "Expert"
+    },
+    "categories": {
+      "technical": "Technical",
+      "soft": "Soft Skills",
+      "language": "Language",
+      "other": "Other"
+    }
+  },
+  "languages": {
+    "addLanguage": "Add Language",
+    "language": "Language",
+    "proficiency": "Proficiency Level",
+    "proficiencyLevels": {
+      "native": "Native",
+      "fluent": "Fluent",
+      "advanced": "Advanced",
+      "intermediate": "Intermediate",
+      "beginner": "Beginner"
+    }
+  },
+  "certifications": {
+    "addCertification": "Add Certification",
+    "name": "Name",
+    "issuer": "Issuing Organization",
+    "date": "Issue Date",
+    "expiryDate": "Expiry Date",
+    "credentialId": "Credential ID",
+    "url": "URL"
+  },
+  "projects": {
+    "addProject": "Add Project",
+    "name": "Project Name",
+    "role": "Role",
+    "description": "Description",
+    "technologies": "Technologies Used",
+    "url": "Project URL",
+    "startDate": "Start Date",
+    "endDate": "End Date"
+  },
+  "references": {
+    "addReference": "Add Reference",
+    "name": "Name",
+    "position": "Position",
+    "company": "Company",
+    "email": "Email",
+    "phone": "Phone",
+    "relationship": "Relationship"
+  },
+  "templates": {
+    "title": "Choose a template",
+    "modern": "Modern",
+    "classic": "Classic",
+    "creative": "Creative",
+    "minimal": "Minimal",
+    "professional": "Professional"
+  },
+  "validation": {
+    "required": "This field is required",
+    "invalidEmail": "Invalid email",
+    "invalidPhone": "Invalid phone number",
+    "invalidUrl": "Invalid URL",
+    "invalidDate": "Invalid date"
+  }
+}

@@ -1,0 +1,178 @@
+{
+  "common": {
+    "name": "Nom",
+    "firstName": "Prénom",
+    "lastName": "Nom de famille",
+    "email": "Email",
+    "phone": "Téléphone",
+    "address": "Adresse",
+    "city": "Ville",
+    "country": "Pays",
+    "postalCode": "Code postal",
+    "dateOfBirth": "Date de naissance",
+    "nationality": "Nationalité",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "add": "Ajouter",
+    "download": "Télécharger",
+    "upload": "Téléverser",
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "success": "Succès",
+    "back": "Retour",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "reset": "Réinitialiser",
+    "steps": "Étapes",
+    "step": "Étape",
+    "confirmReset": "Êtes-vous sûr de vouloir réinitialiser votre CV ? Toutes les données seront perdues.",
+    "freeBadge": "100% Gratuit",
+    "startButton": "Créer mon CV",
+    "chooseLanguage": "Choisir la langue",
+    "whyChooseUs": "Pourquoi choisir CV Sénégal ?",
+    "feature1Title": "Designs Professionnels",
+    "feature1Desc": "Des modèles de CV modernes et élégants adaptés au marché sénégalais et africain.",
+    "feature2Title": "Export PDF",
+    "feature2Desc": "Téléchargez votre CV en PDF haute qualité, prêt à imprimer ou envoyer.",
+    "feature3Title": "Multilingue",
+    "feature3Desc": "Créez votre CV en Français, Anglais ou Wolof selon vos besoins.",
+    "feature4Title": "Mobile Friendly",
+    "feature4Desc": "Utilisez l'application sur votre téléphone ou tablette, n'importe où.",
+    "ctaTitle": "Prêt à créer votre CV ?",
+    "ctaSubtitle": "Rejoignez des milliers de Sénégalais qui ont déjà créé leur CV professionnel gratuitement.",
+    "createNow": "Créer maintenant",
+    "footerText": "Créé avec amour pour le Sénégal"
+  },
+  "cv": {
+    "title": "Créateur de CV Sénégal",
+    "subtitle": "Créez facilement un CV professionnel et élégant, adapté au marché de l'emploi sénégalais",
+    "download": "Télécharger PDF",
+    "preview": "Aperçu",
+    "print": "Imprimer"
+  },
+  "sections": {
+    "personalInfo": "Informations personnelles",
+    "contact": "Contact",
+    "objective": "Profil / Objectif",
+    "experience": "Expérience professionnelle",
+    "education": "Formation",
+    "skills": "Compétences",
+    "languages": "Langues",
+    "certifications": "Certifications",
+    "projects": "Projets",
+    "references": "Références",
+    "hobbies": "Centres d'intérêt",
+    "summary": "Résumé"
+  },
+  "personalInfo": {
+    "photo": "Photo",
+    "uploadPhoto": "Téléverser une photo",
+    "removePhoto": "Supprimer la photo",
+    "title": "Titre professionnel",
+    "website": "Site web",
+    "linkedin": "LinkedIn",
+    "github": "GitHub"
+  },
+  "objective": {
+    "placeholder": "Décrivez brièvement vos objectifs professionnels..."
+  },
+  "experience": {
+    "addExperience": "Ajouter une expérience",
+    "position": "Poste",
+    "company": "Entreprise",
+    "location": "Lieu",
+    "startDate": "Date de début",
+    "endDate": "Date de fin",
+    "current": "Poste actuel",
+    "description": "Description",
+    "responsibilities": "Responsabilités",
+    "achievements": "Réalisations"
+  },
+  "education": {
+    "addEducation": "Ajouter une formation",
+    "degree": "Diplôme",
+    "institution": "Établissement",
+    "fieldOfStudy": "Domaine d'études",
+    "location": "Lieu",
+    "startDate": "Date de début",
+    "endDate": "Date de fin",
+    "current": "En cours",
+    "grade": "Mention",
+    "description": "Description"
+  },
+  "skills": {
+    "addSkill": "Ajouter une compétence",
+    "skillName": "Nom de la compétence",
+    "level": "Niveau",
+    "category": "Catégorie",
+    "levels": {
+      "beginner": "Débutant",
+      "intermediate": "Intermédiaire",
+      "advanced": "Avancé",
+      "expert": "Expert"
+    },
+    "categories": {
+      "technical": "Technique",
+      "soft": "Soft skills",
+      "language": "Langue",
+      "other": "Autre"
+    }
+  },
+  "languages": {
+    "addLanguage": "Ajouter une langue",
+    "language": "Langue",
+    "proficiency": "Niveau de maîtrise",
+    "proficiencyLevels": {
+      "native": "Langue maternelle",
+      "fluent": "Courant",
+      "advanced": "Avancé",
+      "intermediate": "Intermédiaire",
+      "beginner": "Débutant"
+    }
+  },
+  "certifications": {
+    "addCertification": "Ajouter une certification",
+    "name": "Nom",
+    "issuer": "Organisme émetteur",
+    "date": "Date d'obtention",
+    "expiryDate": "Date d'expiration",
+    "credentialId": "ID de certification",
+    "url": "URL"
+  },
+  "projects": {
+    "addProject": "Ajouter un projet",
+    "name": "Nom du projet",
+    "role": "Rôle",
+    "description": "Description",
+    "technologies": "Technologies utilisées",
+    "url": "URL du projet",
+    "startDate": "Date de début",
+    "endDate": "Date de fin"
+  },
+  "references": {
+    "addReference": "Ajouter une référence",
+    "name": "Nom",
+    "position": "Poste",
+    "company": "Entreprise",
+    "email": "Email",
+    "phone": "Téléphone",
+    "relationship": "Relation"
+  },
+  "templates": {
+    "title": "Choisir un modèle",
+    "modern": "Moderne",
+    "classic": "Classique",
+    "creative": "Créatif",
+    "minimal": "Minimaliste",
+    "professional": "Professionnel"
+  },
+  "validation": {
+    "required": "Ce champ est requis",
+    "invalidEmail": "Email invalide",
+    "invalidPhone": "Numéro de téléphone invalide",
+    "invalidUrl": "URL invalide",
+    "invalidDate": "Date invalide"
+  }
+}
