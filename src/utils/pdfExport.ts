@@ -1,143 +1,187 @@
-import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 /**
- * Exports an HTML element to a single-page PDF file
+ * Convert any CSS color to RGB using canvas
+ */
+function colorToRGB(color: string): string {
+  if (!color || color === 'transparent' || color === 'rgba(0, 0, 0, 0)') {
+    return color;
+  }
+
+  // If already rgb/rgba, return as is
+  if (color.startsWith('rgb')) {
+    return color;
+  }
+
+  // Use canvas to convert color
+  const canvas = document.createElement('canvas');
+  canvas.width = 1;
+  canvas.height = 1;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return color;
+
+  ctx.fillStyle = color;
+  ctx.fillRect(0, 0, 1, 1);
+  const data = ctx.getImageData(0, 0, 1, 1).data;
+  return `rgb(${data[0]}, ${data[1]}, ${data[2]})`;
+}
+
+/**
+ * Recursively apply computed RGB colors to all elements
+ */
+function convertColorsToRGB(element: HTMLElement): void {
+  const computed = window.getComputedStyle(element);
+
+  // Convert and apply colors
+  const props = ['color', 'backgroundColor', 'borderColor', 'borderTopColor', 'borderRightColor', 'borderBottomColor', 'borderLeftColor'];
+
+  props.forEach(prop => {
+    const value = computed.getPropertyValue(prop.replace(/([A-Z])/g, '-$1').toLowerCase());
+    if (value && value !== 'transparent' && value !== 'rgba(0, 0, 0, 0)') {
+      (element.style as any)[prop] = colorToRGB(value);
+    }
+  });
+
+  // Process children
+  Array.from(element.children).forEach(child => {
+    convertColorsToRGB(child as HTMLElement);
+  });
+}
+
+/**
+ * Exports an HTML element to PDF file
  */
 export async function exportToPDF(
   elementId: string,
   fileName: string = 'CV'
 ): Promise<void> {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const element = document.getElementById(elementId);
+  const element = document.getElementById(elementId);
 
-      if (!element) {
-        const availableIds = Array.from(document.querySelectorAll('[id]'))
-          .map(el => el.id)
-          .filter(id => id);
-        console.error(`Element "${elementId}" not found.`);
-        console.error('Available IDs:', availableIds);
-        reject(new Error(`Element "${elementId}" not found`));
-        return;
+  if (!element) {
+    console.error(`Element "${elementId}" not found`);
+    throw new Error(`Element not found: ${elementId}`);
+  }
+
+  console.log('PDF Export: Starting...');
+
+  // Clone the element
+  const clone = element.cloneNode(true) as HTMLElement;
+
+  // Create temporary container
+  const container = document.createElement('div');
+  container.style.cssText = `
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 210mm;
+    min-height: 297mm;
+    background: white;
+    z-index: 99999;
+    overflow: visible;
+  `;
+  container.appendChild(clone);
+  document.body.appendChild(container);
+
+  // Wait for render
+  await new Promise(r => setTimeout(r, 50));
+
+  // Convert all colors to RGB
+  convertColorsToRGB(clone);
+
+  // Wait for styles to apply
+  await new Promise(r => setTimeout(r, 50));
+
+  try {
+    // Create canvas - ignore oklab warnings
+    const originalWarn = console.warn;
+    console.warn = (...args) => {
+      if (args[0]?.includes?.('oklab') || args[0]?.includes?.('unsupported color')) {
+        return; // Suppress oklab warnings
       }
+      originalWarn.apply(console, args);
+    };
 
-      console.log('PDF Export: Starting...');
-      console.log('Element found:', element.tagName, element.className);
-      console.log('Element size:', element.offsetWidth, 'x', element.offsetHeight);
+    const canvas = await html2canvas(clone, {
+      scale: 2,
+      useCORS: true,
+      allowTaint: true,
+      backgroundColor: '#ffffff',
+      logging: false,
+      width: clone.scrollWidth,
+      height: clone.scrollHeight,
+    });
 
-      // Ensure element is visible and has dimensions
-      if (element.offsetWidth === 0 || element.offsetHeight === 0) {
-        reject(new Error('Element has no dimensions'));
-        return;
-      }
+    console.warn = originalWarn;
 
-      // Create canvas with proper settings
-      const canvas = await html2canvas(element, {
-        scale: 2,
-        useCORS: true,
-        allowTaint: true,
-        backgroundColor: '#ffffff',
-        logging: false,
-        imageTimeout: 15000,
-        removeContainer: true,
-      });
+    console.log('Canvas created:', canvas.width, 'x', canvas.height);
 
-      console.log('Canvas created:', canvas.width, 'x', canvas.height);
+    // A4 dimensions
+    const pdfWidth = 210;
+    const pdfHeight = 297;
+    const imgWidth = pdfWidth;
+    const imgHeight = (canvas.height * pdfWidth) / canvas.width;
 
-      // A4 dimensions in mm
-      const pdfWidth = 210;
-      const pdfHeight = 297;
+    // Create PDF
+    const pdf = new jsPDF({
+      orientation: 'portrait',
+      unit: 'mm',
+      format: 'a4',
+    });
 
-      // Calculate aspect ratios
-      const canvasAspect = canvas.width / canvas.height;
-      const pdfAspect = pdfWidth / pdfHeight;
+    const imgData = canvas.toDataURL('image/jpeg', 0.92);
 
-      let imgWidth: number;
-      let imgHeight: number;
-      let xOffset: number;
-      let yOffset: number;
+    // Handle multiple pages
+    let heightLeft = imgHeight;
+    let position = 0;
 
-      // Scale to fit on single page while maintaining aspect ratio
-      if (canvasAspect > pdfAspect) {
-        // Image is wider than PDF - fit to width
-        imgWidth = pdfWidth;
-        imgHeight = pdfWidth / canvasAspect;
-        xOffset = 0;
-        yOffset = (pdfHeight - imgHeight) / 2;
-      } else {
-        // Image is taller than PDF - fit to height
-        imgHeight = pdfHeight;
-        imgWidth = pdfHeight * canvasAspect;
-        xOffset = (pdfWidth - imgWidth) / 2;
-        yOffset = 0;
-      }
+    pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+    heightLeft -= pdfHeight;
 
-      // Create PDF
-      const pdf = new jsPDF({
-        orientation: 'portrait',
-        unit: 'mm',
-        format: 'a4',
-      });
-
-      // Convert canvas to data URL
-      const imgData = canvas.toDataURL('image/png', 1.0);
-
-      // Add image to PDF - single page, centered
-      pdf.addImage(imgData, 'PNG', xOffset, yOffset, imgWidth, imgHeight);
-
-      // Save PDF
-      pdf.save(`${fileName}.pdf`);
-
-      console.log('PDF Export: Success!');
-      resolve();
-
-    } catch (error) {
-      console.error('PDF Export Error:', error);
-      reject(error);
+    while (heightLeft > 0) {
+      position = heightLeft - imgHeight;
+      pdf.addPage();
+      pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pdfHeight;
     }
-  });
+
+    // Add copyright footer to last page
+    const totalPages = pdf.getNumberOfPages();
+    pdf.setPage(totalPages);
+    pdf.setFontSize(8);
+    pdf.setTextColor(150, 150, 150);
+    const copyrightText = `© ${new Date().getFullYear()} customercloud - CV Builder`;
+    const textWidth = pdf.getTextWidth(copyrightText);
+    pdf.text(copyrightText, (pdfWidth - textWidth) / 2, pdfHeight - 5);
+
+    // Download
+    pdf.save(`${fileName}.pdf`);
+    console.log('PDF Export: Success!');
+
+  } finally {
+    document.body.removeChild(container);
+  }
 }
 
 /**
- * Use browser print dialog (fallback)
+ * Print CV using browser dialog
  */
 export function printCV(): void {
   window.print();
 }
 
 /**
- * Check if element exists
- */
-export function canExportToPDF(elementId: string): boolean {
-  const element = document.getElementById(elementId);
-  return element !== null && element.offsetWidth > 0 && element.offsetHeight > 0;
-}
-
-/**
- * Format date as YYYY-MM-DD
- */
-export function getFormattedDate(): string {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, '0');
-  const day = String(now.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
-}
-
-/**
- * Generate filename for CV
+ * Generate filename
  */
 export function generateCVFileName(firstName?: string, lastName?: string): string {
-  const date = getFormattedDate();
+  const now = new Date();
+  const date = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
 
   if (firstName && lastName) {
     return `CV_${firstName}_${lastName}_${date}`.replace(/\s+/g, '_');
   }
-
   if (firstName || lastName) {
     return `CV_${(firstName || lastName || '').replace(/\s+/g, '_')}_${date}`;
   }
-
   return `CV_${date}`;
 }

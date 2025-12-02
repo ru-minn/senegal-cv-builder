@@ -190,14 +190,24 @@ export default function BuilderPage() {
       case 'preview':
         return (
           <div className="space-y-6">
-            <div className="bg-white rounded-xl shadow-lg p-4 overflow-visible">
-              <TemplateWrapper
+            {/* Full CV Preview with scroll */}
+            <div
+              className="bg-gray-100 rounded-xl p-4 overflow-auto border border-gray-200"
+              style={{ maxHeight: '70vh' }}
+            >
+              <div
                 id="cv-preview"
-                data={cvData}
-                templateType={selectedTemplate as 'modern' | 'classic' | 'minimal' | 'professional'}
-                config={{ accentColor: accentColorMap[accentColor] }}
-              />
+                className="mx-auto bg-white shadow-lg"
+                style={{ width: '210mm', minHeight: '297mm' }}
+              >
+                <TemplateWrapper
+                  data={cvData}
+                  templateType={selectedTemplate as 'modern' | 'classic' | 'minimal' | 'professional'}
+                  config={{ accentColor: accentColorMap[accentColor] }}
+                />
+              </div>
             </div>
+            {/* Download Button */}
             <div className="flex justify-center">
               <ExportButton
                 firstName={cvData.personalInfo.firstName}
@@ -378,41 +388,36 @@ export default function BuilderPage() {
                 <span>{t('common.previous')}</span>
               </button>
 
-              {currentStep < STEPS.length - 1 ? (
-                <button
-                  onClick={handleNext}
-                  className="flex items-center gap-2 px-6 py-3 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors"
-                >
-                  <span>{t('common.next')}</span>
-                  <ChevronRight className="w-5 h-5" />
-                </button>
-              ) : (
-                <ExportButton
-                  firstName={cvData.personalInfo.firstName}
-                  lastName={cvData.personalInfo.lastName}
-                />
-              )}
+              <button
+                onClick={handleNext}
+                disabled={currentStep === STEPS.length - 1}
+                className="flex items-center gap-2 px-6 py-3 rounded-lg bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              >
+                <span>{currentStep === STEPS.length - 1 ? t('cv.preview') : t('common.next')}</span>
+                <ChevronRight className="w-5 h-5" />
+              </button>
             </div>
           </main>
 
-          {/* Live Preview - Desktop */}
-          <aside className="hidden lg:block lg:w-96 flex-shrink-0">
-            <div className="sticky top-24">
-              <div className="bg-white rounded-xl shadow-sm p-4">
-                <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">
-                  {t('cv.preview')}
-                </h3>
-                <div className="transform scale-[0.4] origin-top-left w-[250%] h-[600px] overflow-hidden">
-                  <TemplateWrapper
-                    id="cv-sidebar-preview"
-                    data={cvData}
-                    templateType={selectedTemplate as 'modern' | 'classic' | 'minimal' | 'professional'}
-                    config={{ accentColor: accentColorMap[accentColor] }}
-                  />
+          {/* Live Preview - Desktop (hidden on preview step) */}
+          {STEPS[currentStep].id !== 'preview' && (
+            <aside className="hidden lg:block lg:w-96 flex-shrink-0">
+              <div className="sticky top-24">
+                <div className="bg-white rounded-xl shadow-sm p-4">
+                  <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">
+                    {t('cv.preview')}
+                  </h3>
+                  <div className="transform scale-[0.4] origin-top-left w-[250%] h-[600px] overflow-hidden">
+                    <TemplateWrapper
+                      data={cvData}
+                      templateType={selectedTemplate as 'modern' | 'classic' | 'minimal' | 'professional'}
+                      config={{ accentColor: accentColorMap[accentColor] }}
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-          </aside>
+            </aside>
+          )}
         </div>
       </div>
 
