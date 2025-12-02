@@ -33,6 +33,20 @@ const TEMPLATE_OPTIONS: TemplateOption[] = [
     preview: '/templates/classic-preview.svg',
     accentColors: ['#1E40AF', '#065F46', '#7C2D12', '#4C1D95', '#92400E'],
   },
+  {
+    id: 'minimal',
+    name: 'Minimaliste',
+    description: 'Design épuré et moderne, idéal pour les startups et entreprises tech',
+    preview: '/templates/minimal-preview.svg',
+    accentColors: ['#374151', '#0F766E', '#4338CA', '#B91C1C', '#0369A1'],
+  },
+  {
+    id: 'professional',
+    name: 'Professionnel',
+    description: 'Layout équilibré avec en-tête coloré, parfait pour toutes les industries',
+    preview: '/templates/professional-preview.svg',
+    accentColors: ['#1E3A5F', '#14532D', '#581C87', '#7F1D1D', '#0C4A6E'],
+  },
 ];
 
 export default function TemplateSelector({
@@ -63,18 +77,45 @@ export default function TemplateSelector({
               <div className="mb-3 aspect-[210/297] bg-gray-100 rounded overflow-hidden relative">
                 {/* Placeholder preview - you can replace with actual images */}
                 <div className="absolute inset-0 flex items-center justify-center">
-                  {template.id === 'modern' ? (
+                  {template.id === 'modern' && (
                     <div className="w-full h-full flex">
                       <div className="w-[35%] bg-red-600" />
                       <div className="w-[65%] bg-white" />
                     </div>
-                  ) : (
+                  )}
+                  {template.id === 'classic' && (
                     <div className="w-full h-full bg-white p-4">
                       <div className="h-8 bg-blue-800 mb-2" />
                       <div className="h-1 bg-gray-300 mb-4" />
                       <div className="space-y-2">
                         <div className="h-2 bg-gray-200" />
                         <div className="h-2 bg-gray-200 w-3/4" />
+                      </div>
+                    </div>
+                  )}
+                  {template.id === 'minimal' && (
+                    <div className="w-full h-full bg-white p-4">
+                      <div className="h-4 bg-gray-400 w-1/2 mb-2" />
+                      <div className="h-1 bg-gray-200 w-2/3 mb-6" />
+                      <div className="space-y-3">
+                        <div className="h-2 bg-gray-100 w-full" />
+                        <div className="h-2 bg-gray-100 w-5/6" />
+                        <div className="h-2 bg-gray-100 w-4/5" />
+                      </div>
+                    </div>
+                  )}
+                  {template.id === 'professional' && (
+                    <div className="w-full h-full bg-white">
+                      <div className="h-16 bg-slate-700" />
+                      <div className="p-3 flex gap-2">
+                        <div className="w-[60%] space-y-2">
+                          <div className="h-2 bg-gray-200" />
+                          <div className="h-2 bg-gray-200 w-3/4" />
+                        </div>
+                        <div className="w-[40%] bg-gray-50 p-2 rounded">
+                          <div className="h-2 bg-gray-200 mb-2" />
+                          <div className="h-2 bg-gray-200" />
+                        </div>
                       </div>
                     </div>
                   )}
@@ -146,7 +187,7 @@ export default function TemplateSelector({
       <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
         <h4 className="font-semibold text-gray-900 mb-2">Caractéristiques:</h4>
         <ul className="space-y-1 text-sm text-gray-700">
-          {selectedTemplate === 'modern' ? (
+          {selectedTemplate === 'modern' && (
             <>
               <li className="flex items-center gap-2">
                 <span className="text-green-600">✓</span>
@@ -165,7 +206,8 @@ export default function TemplateSelector({
                 Design contemporain et créatif
               </li>
             </>
-          ) : (
+          )}
+          {selectedTemplate === 'classic' && (
             <>
               <li className="flex items-center gap-2">
                 <span className="text-green-600">✓</span>
@@ -182,6 +224,46 @@ export default function TemplateSelector({
               <li className="flex items-center gap-2">
                 <span className="text-green-600">✓</span>
                 Idéal pour secteurs conservateurs
+              </li>
+            </>
+          )}
+          {selectedTemplate === 'minimal' && (
+            <>
+              <li className="flex items-center gap-2">
+                <span className="text-green-600">✓</span>
+                Design épuré avec beaucoup d'espace blanc
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-green-600">✓</span>
+                Typographie légère et élégante
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-green-600">✓</span>
+                Compétences en badges stylisés
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-green-600">✓</span>
+                Parfait pour startups et tech
+              </li>
+            </>
+          )}
+          {selectedTemplate === 'professional' && (
+            <>
+              <li className="flex items-center gap-2">
+                <span className="text-green-600">✓</span>
+                En-tête coloré avec photo intégrée
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-green-600">✓</span>
+                Layout à deux colonnes équilibré
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-green-600">✓</span>
+                Barres de progression pour compétences
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-green-600">✓</span>
+                Convient à toutes les industries
               </li>
             </>
           )}

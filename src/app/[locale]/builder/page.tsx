@@ -195,7 +195,7 @@ export default function BuilderPage() {
       case 'template':
         return (
           <TemplateSelector
-            selectedTemplate={selectedTemplate as 'modern' | 'classic'}
+            selectedTemplate={selectedTemplate as 'modern' | 'classic' | 'minimal' | 'professional'}
             onSelectTemplate={(template) => setTemplate(template)}
             selectedColor={accentColorMap[accentColor]}
             onSelectColor={(color) => {
@@ -214,7 +214,7 @@ export default function BuilderPage() {
             <div className="bg-white rounded-xl shadow-lg p-4 overflow-auto max-h-[70vh]">
               <TemplateWrapper
                 data={cvData}
-                templateType={selectedTemplate as 'modern' | 'classic'}
+                templateType={selectedTemplate as 'modern' | 'classic' | 'minimal' | 'professional'}
                 config={{ accentColor: accentColorMap[accentColor] }}
               />
             </div>
@@ -425,7 +425,7 @@ export default function BuilderPage() {
                 <div className="transform scale-[0.4] origin-top-left w-[250%] h-[600px] overflow-hidden">
                   <TemplateWrapper
                     data={cvData}
-                    templateType={selectedTemplate as 'modern' | 'classic'}
+                    templateType={selectedTemplate as 'modern' | 'classic' | 'minimal' | 'professional'}
                     config={{ accentColor: accentColorMap[accentColor] }}
                   />
                 </div>
@@ -448,7 +448,7 @@ export default function BuilderPage() {
             <div className="transform scale-50 origin-top-left w-[200%]">
               <TemplateWrapper
                 data={cvData}
-                templateType={selectedTemplate as 'modern' | 'classic'}
+                templateType={selectedTemplate as 'modern' | 'classic' | 'minimal' | 'professional'}
                 config={{ accentColor: accentColorMap[accentColor] }}
               />
             </div>

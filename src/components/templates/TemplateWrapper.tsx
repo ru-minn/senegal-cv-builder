@@ -2,6 +2,8 @@ import React from 'react';
 import { CVData, TemplateType, TemplateConfig } from '@/types/cv';
 import ModernTemplate from './ModernTemplate';
 import ClassicTemplate from './ClassicTemplate';
+import MinimalTemplate from './MinimalTemplate';
+import ProfessionalTemplate from './ProfessionalTemplate';
 
 interface TemplateWrapperProps {
   data: CVData;
@@ -16,6 +18,10 @@ export default function TemplateWrapper({ data, templateType, config }: Template
         return <ModernTemplate data={data} config={config} />;
       case 'classic':
         return <ClassicTemplate data={data} config={config} />;
+      case 'minimal':
+        return <MinimalTemplate data={data} config={config} />;
+      case 'professional':
+        return <ProfessionalTemplate data={data} config={config} />;
       default:
         return <ModernTemplate data={data} config={config} />;
     }

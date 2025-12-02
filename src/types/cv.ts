@@ -80,7 +80,7 @@ export const DEFAULT_CV_DATA: CVData = {
 };
 
 // Template types
-export type TemplateType = 'modern' | 'classic';
+export type TemplateType = 'modern' | 'classic' | 'minimal' | 'professional';
 
 export interface TemplateConfig {
   accentColor?: string;
