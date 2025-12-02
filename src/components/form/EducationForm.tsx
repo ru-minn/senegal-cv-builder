@@ -2,6 +2,7 @@
 
 import { Education } from '@/types/cv';
 import { Plus, Trash2, GraduationCap } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 export interface EducationFormProps {
   data: Education[];
@@ -9,6 +10,8 @@ export interface EducationFormProps {
 }
 
 export default function EducationForm({ data, onChange }: EducationFormProps) {
+  const t = useTranslations();
+
   const addEducation = () => {
     const newEducation: Education = {
       id: Date.now().toString(),
@@ -37,21 +40,21 @@ export default function EducationForm({ data, onChange }: EducationFormProps) {
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">Formation</h2>
-        <p className="text-gray-600 text-sm">Ajoutez votre parcours académique</p>
+        <h2 className="text-2xl font-bold text-gray-800 mb-2">{t('sections.education')}</h2>
+        <p className="text-gray-600 text-sm">{t('form.addYourEducation')}</p>
       </div>
 
       {data.length === 0 ? (
         <div className="text-center py-12 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
           <GraduationCap className="w-12 h-12 text-gray-400 mx-auto mb-3" />
-          <p className="text-gray-600 mb-4">Aucune formation ajoutée</p>
+          <p className="text-gray-600 mb-4">{t('form.noEducationAdded')}</p>
           <button
             type="button"
             onClick={addEducation}
             className="inline-flex items-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
           >
             <Plus className="w-4 h-4 mr-2" />
-            Ajouter une Formation
+            {t('education.addEducation')}
           </button>
         </div>
       ) : (
@@ -63,13 +66,13 @@ export default function EducationForm({ data, onChange }: EducationFormProps) {
             >
               <div className="flex justify-between items-start mb-4">
                 <h3 className="text-lg font-semibold text-gray-800">
-                  Formation {index + 1}
+                  {t('form.educationNumber')} {index + 1}
                 </h3>
                 <button
                   type="button"
                   onClick={() => removeEducation(education.id)}
                   className="text-red-500 hover:text-red-700 hover:bg-red-50 p-2 rounded-lg transition-colors"
-                  aria-label="Supprimer"
+                  aria-label={t('common.delete')}
                 >
                   <Trash2 className="w-5 h-5" />
                 </button>
@@ -80,26 +83,26 @@ export default function EducationForm({ data, onChange }: EducationFormProps) {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Diplôme <span className="text-red-500">*</span>
+                      {t('education.degree')} <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="text"
                       value={education.degree}
                       onChange={(e) => updateEducation(education.id, 'degree', e.target.value)}
-                      placeholder="Licence, Master, Baccalauréat..."
+                      placeholder="Bachelor&apos;s, Master&apos;s, High School..."
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow"
                       required
                     />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Domaine d&apos;Études <span className="text-red-500">*</span>
+                      {t('education.fieldOfStudy')} <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="text"
                       value={education.field}
                       onChange={(e) => updateEducation(education.id, 'field', e.target.value)}
-                      placeholder="Informatique, Gestion, Sciences..."
+                      placeholder="Computer Science, Business, Sciences..."
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow"
                       required
                     />
@@ -110,20 +113,20 @@ export default function EducationForm({ data, onChange }: EducationFormProps) {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Établissement <span className="text-red-500">*</span>
+                      {t('education.institution')} <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="text"
                       value={education.school}
                       onChange={(e) => updateEducation(education.id, 'school', e.target.value)}
-                      placeholder="Université, École, Lycée..."
+                      placeholder="University, School, High School..."
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow"
                       required
                     />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Localisation
+                      {t('education.location')}
                     </label>
                     <input
                       type="text"
@@ -139,7 +142,7 @@ export default function EducationForm({ data, onChange }: EducationFormProps) {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Date de Début <span className="text-red-500">*</span>
+                      {t('education.startDate')} <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="month"
@@ -151,7 +154,7 @@ export default function EducationForm({ data, onChange }: EducationFormProps) {
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Date de Fin
+                      {t('education.endDate')}
                     </label>
                     <input
                       type="month"
@@ -178,24 +181,24 @@ export default function EducationForm({ data, onChange }: EducationFormProps) {
                     className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                   />
                   <label htmlFor={`current-${education.id}`} className="ml-2 text-sm text-gray-700">
-                    Études en cours
+                    {t('form.currentStudies')}
                   </label>
                 </div>
 
                 {/* Description */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Description (optionnel)
+                    {t('education.description')}
                   </label>
                   <textarea
                     value={education.description || ''}
                     onChange={(e) => updateEducation(education.id, 'description', e.target.value)}
-                    placeholder="Mentionnez vos réalisations, projets importants, mentions honorables...&#10;• Mention Très Bien&#10;• Projet de fin d'études sur...&#10;• Président de l'association étudiante"
+                    placeholder={t('form.descriptionPlaceholder')}
                     rows={3}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow resize-none"
                   />
                   <p className="text-xs text-gray-500 mt-1">
-                    Ajoutez des détails pertinents sur votre formation
+                    {t('form.educationDescHint')}
                   </p>
                 </div>
               </div>
@@ -209,7 +212,7 @@ export default function EducationForm({ data, onChange }: EducationFormProps) {
             className="w-full flex items-center justify-center px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg text-gray-600 hover:border-blue-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"
           >
             <Plus className="w-5 h-5 mr-2" />
-            Ajouter une Autre Formation
+            {t('form.addAnother')} {t('sections.education')}
           </button>
         </div>
       )}

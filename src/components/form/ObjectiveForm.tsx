@@ -1,6 +1,7 @@
 'use client';
 
 import { FileText } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 export interface ObjectiveFormProps {
   data: string;
@@ -8,24 +9,24 @@ export interface ObjectiveFormProps {
 }
 
 export default function ObjectiveForm({ data, onChange }: ObjectiveFormProps) {
+  const t = useTranslations();
   const maxLength = 500;
   const remainingChars = maxLength - data.length;
 
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">Objectif de Carrière</h2>
-        <p className="text-gray-600 text-sm">Décrivez brièvement vos objectifs professionnels</p>
+        <h2 className="text-2xl font-bold text-gray-800 mb-2">{t('sections.objective')}</h2>
+        <p className="text-gray-600 text-sm">{t('objective.placeholder')}</p>
       </div>
 
       <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
         <div className="flex items-start space-x-3">
           <FileText className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
           <div className="text-sm text-blue-800">
-            <p className="font-medium mb-1">Conseil :</p>
+            <p className="font-medium mb-1">{t('form.tip')}</p>
             <p className="text-blue-700">
-              Décrivez qui vous êtes professionnellement, vos compétences clés, et ce que vous recherchez.
-              Gardez-le concis et pertinent pour le poste visé.
+              {t('form.objectiveTip')}
             </p>
           </div>
         </div>
@@ -33,38 +34,38 @@ export default function ObjectiveForm({ data, onChange }: ObjectiveFormProps) {
 
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">
-          Résumé Professionnel
+          {t('sections.summary')}
         </label>
         <textarea
           value={data}
           onChange={(e) => onChange(e.target.value)}
-          placeholder="Exemple : Professionnel dynamique avec 5 ans d'expérience dans le marketing digital, passionné par les stratégies de communication innovantes. À la recherche d'opportunités pour contribuer à la croissance d'une entreprise en pleine expansion..."
+          placeholder={t('objective.placeholder')}
           rows={6}
           maxLength={maxLength}
           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow resize-none"
         />
         <div className="flex justify-between items-center mt-2">
           <p className="text-xs text-gray-500">
-            Décrivez vos objectifs en 2-4 phrases
+            {t('objective.placeholder')}
           </p>
           <p className={`text-xs ${remainingChars < 50 ? 'text-orange-500 font-medium' : 'text-gray-500'}`}>
-            {remainingChars} caractères restants
+            {remainingChars}
           </p>
         </div>
       </div>
 
       {/* Example/Template Section */}
       <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
-        <p className="text-sm font-medium text-gray-700 mb-2">Exemples :</p>
+        <p className="text-sm font-medium text-gray-700 mb-2">{t('form.objectiveExamples')}</p>
         <div className="space-y-2">
           <div className="text-xs text-gray-600 bg-white p-3 rounded border border-gray-200">
-            <strong>Marketing :</strong> &quot;Spécialiste marketing digital avec 3 ans d&apos;expérience en gestion de campagnes sur les réseaux sociaux. Expertise en analyse de données et création de contenu engageant.&quot;
+            <strong>Marketing:</strong> &quot;{t('form.marketingExample')}&quot;
           </div>
           <div className="text-xs text-gray-600 bg-white p-3 rounded border border-gray-200">
-            <strong>Informatique :</strong> &quot;Développeur full-stack passionné par les technologies web modernes. Compétent en React, Node.js et bases de données. Cherche à contribuer à des projets innovants.&quot;
+            <strong>IT:</strong> &quot;{t('form.itExample')}&quot;
           </div>
           <div className="text-xs text-gray-600 bg-white p-3 rounded border border-gray-200">
-            <strong>Commerce :</strong> &quot;Commercial motivé avec un excellent sens du relationnel. Expérience prouvée dans l&apos;atteinte des objectifs de vente. Souhait de développer mon expertise dans le secteur des télécommunications.&quot;
+            <strong>Sales:</strong> &quot;{t('form.salesExample')}&quot;
           </div>
         </div>
       </div>

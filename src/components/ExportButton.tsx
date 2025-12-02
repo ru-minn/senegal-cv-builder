@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
-import { Download, Loader2 } from 'lucide-react';
-import { exportToPDF, generateCVFileName } from '@/utils/pdfExport';
+import { useState, useCallback } from 'react';
+import { Download, Loader2, Printer } from 'lucide-react';
+import { exportToPDF, generateCVFileName, printCV } from '@/utils/pdfExport';
 
 export interface ExportButtonProps {
   elementId?: string;
@@ -33,38 +33,48 @@ export default function ExportButton({
       download: 'Télécharger PDF',
       downloading: 'Génération en cours...',
       error: 'Erreur lors de la génération',
+      print: 'Imprimer',
+      retry: 'Réessayer',
     },
     en: {
       download: 'Download PDF',
       downloading: 'Generating...',
       error: 'Generation error',
+      print: 'Print',
+      retry: 'Retry',
     },
   };
 
   const text = buttonText[language];
 
-  const handleExport = async () => {
+  const handleExport = useCallback(async () => {
     setIsExporting(true);
     setError(null);
 
+    // Small delay to ensure DOM is ready
+    await new Promise(resolve => setTimeout(resolve, 100));
+
     try {
-      // Generate filename based on user's name or use provided filename
+      // Generate filename
       const cvFileName = fileName || generateCVFileName(firstName, lastName);
 
-      // Export to PDF
+      // Attempt export
       await exportToPDF(elementId, cvFileName);
+
     } catch (err) {
-      console.error('Export failed:', err);
+      console.error('PDF Export Error:', err);
       setError(text.error);
 
-      // Clear error after 3 seconds
-      setTimeout(() => {
-        setError(null);
-      }, 3000);
+      // Clear error after 10 seconds
+      setTimeout(() => setError(null), 10000);
     } finally {
       setIsExporting(false);
     }
-  };
+  }, [elementId, fileName, firstName, lastName, text.error]);
+
+  const handlePrint = useCallback(() => {
+    printCV();
+  }, []);
 
   const baseStyles = `
     inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg
@@ -88,12 +98,12 @@ export default function ExportButton({
   };
 
   const widthStyles = fullWidth ? 'w-full' : '';
-
   const buttonClasses = `${baseStyles} ${variantStyles[variant]} ${widthStyles} ${className}`.trim();
 
   return (
-    <div className={fullWidth ? 'w-full' : ''}>
+    <div className={fullWidth ? 'w-full space-y-2' : 'space-y-2'}>
       <button
+        type="button"
         onClick={handleExport}
         disabled={isExporting}
         className={buttonClasses}
@@ -113,8 +123,25 @@ export default function ExportButton({
       </button>
 
       {error && (
-        <div className="mt-2 p-3 bg-red-50 border border-red-200 rounded-lg">
-          <p className="text-sm text-red-600 text-center">{error}</p>
+        <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
+          <p className="text-sm text-red-600 text-center mb-2">{error}</p>
+          <div className="flex gap-2 justify-center">
+            <button
+              type="button"
+              onClick={handleExport}
+              className="px-3 py-1 text-sm bg-red-100 hover:bg-red-200 text-red-700 rounded transition-colors"
+            >
+              {text.retry}
+            </button>
+            <button
+              type="button"
+              onClick={handlePrint}
+              className="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 rounded transition-colors flex items-center gap-1"
+            >
+              <Printer className="w-4 h-4" />
+              {text.print}
+            </button>
+          </div>
         </div>
       )}
     </div>

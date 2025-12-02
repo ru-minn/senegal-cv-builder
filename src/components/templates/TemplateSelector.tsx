@@ -2,13 +2,15 @@
 
 import React from 'react';
 import { TemplateType } from '@/types/cv';
+import { useTranslations } from 'next-intl';
 
 interface TemplateOption {
   id: TemplateType;
-  name: string;
-  description: string;
+  nameKey: string;
+  descKey: string;
   preview: string;
   accentColors: string[];
+  featureKeys: string[];
 }
 
 interface TemplateSelectorProps {
@@ -21,31 +23,35 @@ interface TemplateSelectorProps {
 const TEMPLATE_OPTIONS: TemplateOption[] = [
   {
     id: 'modern',
-    name: 'Moderne',
-    description: 'Design moderne avec sidebar colorée, photo circulaire et barres de progression',
+    nameKey: 'modern',
+    descKey: 'modernDesc',
     preview: '/templates/modern-preview.svg',
     accentColors: ['#DC2626', '#0891B2', '#7C3AED', '#059669', '#EA580C'],
+    featureKeys: ['modernFeature1', 'modernFeature2', 'modernFeature3', 'modernFeature4'],
   },
   {
     id: 'classic',
-    name: 'Classique',
-    description: 'Design traditionnel et élégant, parfait pour les secteurs formels',
+    nameKey: 'classic',
+    descKey: 'classicDesc',
     preview: '/templates/classic-preview.svg',
     accentColors: ['#1E40AF', '#065F46', '#7C2D12', '#4C1D95', '#92400E'],
+    featureKeys: ['classicFeature1', 'classicFeature2', 'classicFeature3', 'classicFeature4'],
   },
   {
     id: 'minimal',
-    name: 'Minimaliste',
-    description: 'Design épuré et moderne, idéal pour les startups et entreprises tech',
+    nameKey: 'minimal',
+    descKey: 'minimalDesc',
     preview: '/templates/minimal-preview.svg',
     accentColors: ['#374151', '#0F766E', '#4338CA', '#B91C1C', '#0369A1'],
+    featureKeys: ['minimalFeature1', 'minimalFeature2', 'minimalFeature3', 'minimalFeature4'],
   },
   {
     id: 'professional',
-    name: 'Professionnel',
-    description: 'Layout équilibré avec en-tête coloré, parfait pour toutes les industries',
+    nameKey: 'professional',
+    descKey: 'professionalDesc',
     preview: '/templates/professional-preview.svg',
     accentColors: ['#1E3A5F', '#14532D', '#581C87', '#7F1D1D', '#0C4A6E'],
+    featureKeys: ['professionalFeature1', 'professionalFeature2', 'professionalFeature3', 'professionalFeature4'],
   },
 ];
 
@@ -55,13 +61,14 @@ export default function TemplateSelector({
   selectedColor,
   onSelectColor,
 }: TemplateSelectorProps) {
-  const currentTemplate = TEMPLATE_OPTIONS.find((t) => t.id === selectedTemplate);
+  const t = useTranslations('templates');
+  const currentTemplate = TEMPLATE_OPTIONS.find((tpl) => tpl.id === selectedTemplate);
 
   return (
     <div className="space-y-6">
       {/* Template Selection */}
       <div>
-        <h3 className="text-lg font-semibold mb-4 text-gray-900">Choisissez un modèle</h3>
+        <h3 className="text-lg font-semibold mb-4 text-gray-900">{t('chooseTemplate')}</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {TEMPLATE_OPTIONS.map((template) => (
             <button
@@ -139,8 +146,8 @@ export default function TemplateSelector({
 
               {/* Template Info */}
               <div>
-                <h4 className="font-bold text-gray-900 mb-1">{template.name}</h4>
-                <p className="text-sm text-gray-600">{template.description}</p>
+                <h4 className="font-bold text-gray-900 mb-1">{t(template.nameKey)}</h4>
+                <p className="text-sm text-gray-600">{t(template.descKey)}</p>
               </div>
             </button>
           ))}
@@ -150,7 +157,7 @@ export default function TemplateSelector({
       {/* Color Selection */}
       {onSelectColor && currentTemplate && (
         <div>
-          <h3 className="text-lg font-semibold mb-4 text-gray-900">Couleur d&apos;accent</h3>
+          <h3 className="text-lg font-semibold mb-4 text-gray-900">{t('accentColor')}</h3>
           <div className="flex gap-3">
             {currentTemplate.accentColors.map((color) => (
               <button
@@ -184,91 +191,19 @@ export default function TemplateSelector({
       )}
 
       {/* Template Features */}
-      <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
-        <h4 className="font-semibold text-gray-900 mb-2">Caractéristiques:</h4>
-        <ul className="space-y-1 text-sm text-gray-700">
-          {selectedTemplate === 'modern' && (
-            <>
-              <li className="flex items-center gap-2">
+      {currentTemplate && (
+        <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+          <h4 className="font-semibold text-gray-900 mb-2">{t('features')}</h4>
+          <ul className="space-y-1 text-sm text-gray-700">
+            {currentTemplate.featureKeys.map((featureKey) => (
+              <li key={featureKey} className="flex items-center gap-2">
                 <span className="text-green-600">✓</span>
-                Sidebar colorée avec photo circulaire
+                {t(featureKey)}
               </li>
-              <li className="flex items-center gap-2">
-                <span className="text-green-600">✓</span>
-                Barres de progression pour les compétences
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-green-600">✓</span>
-                Timeline verticale pour l&apos;expérience
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-green-600">✓</span>
-                Design contemporain et créatif
-              </li>
-            </>
-          )}
-          {selectedTemplate === 'classic' && (
-            <>
-              <li className="flex items-center gap-2">
-                <span className="text-green-600">✓</span>
-                En-tête centré avec informations de contact
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-green-600">✓</span>
-                Layout traditionnel et formel
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-green-600">✓</span>
-                Indicateurs de niveau pour compétences
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-green-600">✓</span>
-                Idéal pour secteurs conservateurs
-              </li>
-            </>
-          )}
-          {selectedTemplate === 'minimal' && (
-            <>
-              <li className="flex items-center gap-2">
-                <span className="text-green-600">✓</span>
-                Design épuré avec beaucoup d&apos;espace blanc
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-green-600">✓</span>
-                Typographie légère et élégante
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-green-600">✓</span>
-                Compétences en badges stylisés
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-green-600">✓</span>
-                Parfait pour startups et tech
-              </li>
-            </>
-          )}
-          {selectedTemplate === 'professional' && (
-            <>
-              <li className="flex items-center gap-2">
-                <span className="text-green-600">✓</span>
-                En-tête coloré avec photo intégrée
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-green-600">✓</span>
-                Layout à deux colonnes équilibré
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-green-600">✓</span>
-                Barres de progression pour compétences
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-green-600">✓</span>
-                Convient à toutes les industries
-              </li>
-            </>
-          )}
-        </ul>
-      </div>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }

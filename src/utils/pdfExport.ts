@@ -2,110 +2,120 @@ import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 
 /**
- * Exports an HTML element to a PDF file
- * @param elementId - The ID of the HTML element to convert to PDF
- * @param fileName - The name of the PDF file (without .pdf extension)
- * @throws Error if the element is not found or if PDF generation fails
+ * Exports an HTML element to a single-page PDF file
  */
 export async function exportToPDF(
   elementId: string,
   fileName: string = 'CV'
 ): Promise<void> {
-  try {
-    // Get the element to convert
-    const element = document.getElementById(elementId);
+  return new Promise(async (resolve, reject) => {
+    try {
+      const element = document.getElementById(elementId);
 
-    if (!element) {
-      throw new Error(`Element with ID "${elementId}" not found`);
+      if (!element) {
+        const availableIds = Array.from(document.querySelectorAll('[id]'))
+          .map(el => el.id)
+          .filter(id => id);
+        console.error(`Element "${elementId}" not found.`);
+        console.error('Available IDs:', availableIds);
+        reject(new Error(`Element "${elementId}" not found`));
+        return;
+      }
+
+      console.log('PDF Export: Starting...');
+      console.log('Element found:', element.tagName, element.className);
+      console.log('Element size:', element.offsetWidth, 'x', element.offsetHeight);
+
+      // Ensure element is visible and has dimensions
+      if (element.offsetWidth === 0 || element.offsetHeight === 0) {
+        reject(new Error('Element has no dimensions'));
+        return;
+      }
+
+      // Create canvas with proper settings
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: '#ffffff',
+        logging: false,
+        imageTimeout: 15000,
+        removeContainer: true,
+      });
+
+      console.log('Canvas created:', canvas.width, 'x', canvas.height);
+
+      // A4 dimensions in mm
+      const pdfWidth = 210;
+      const pdfHeight = 297;
+
+      // Calculate aspect ratios
+      const canvasAspect = canvas.width / canvas.height;
+      const pdfAspect = pdfWidth / pdfHeight;
+
+      let imgWidth: number;
+      let imgHeight: number;
+      let xOffset: number;
+      let yOffset: number;
+
+      // Scale to fit on single page while maintaining aspect ratio
+      if (canvasAspect > pdfAspect) {
+        // Image is wider than PDF - fit to width
+        imgWidth = pdfWidth;
+        imgHeight = pdfWidth / canvasAspect;
+        xOffset = 0;
+        yOffset = (pdfHeight - imgHeight) / 2;
+      } else {
+        // Image is taller than PDF - fit to height
+        imgHeight = pdfHeight;
+        imgWidth = pdfHeight * canvasAspect;
+        xOffset = (pdfWidth - imgWidth) / 2;
+        yOffset = 0;
+      }
+
+      // Create PDF
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4',
+      });
+
+      // Convert canvas to data URL
+      const imgData = canvas.toDataURL('image/png', 1.0);
+
+      // Add image to PDF - single page, centered
+      pdf.addImage(imgData, 'PNG', xOffset, yOffset, imgWidth, imgHeight);
+
+      // Save PDF
+      pdf.save(`${fileName}.pdf`);
+
+      console.log('PDF Export: Success!');
+      resolve();
+
+    } catch (error) {
+      console.error('PDF Export Error:', error);
+      reject(error);
     }
-
-    // Store original styles to restore later
-    const originalOverflow = element.style.overflow;
-    const originalHeight = element.style.height;
-
-    // Temporarily adjust element for better rendering
-    element.style.overflow = 'visible';
-    element.style.height = 'auto';
-
-    // Create canvas from the element with high quality settings
-    const canvas = await html2canvas(element, {
-      scale: 2, // Higher scale for better quality
-      useCORS: true, // Allow cross-origin images
-      logging: false, // Disable logging
-      backgroundColor: '#ffffff', // White background
-      windowWidth: element.scrollWidth,
-      windowHeight: element.scrollHeight,
-      onclone: (clonedDoc) => {
-        // Ensure the cloned element is fully visible
-        const clonedElement = clonedDoc.getElementById(elementId);
-        if (clonedElement) {
-          clonedElement.style.overflow = 'visible';
-          clonedElement.style.height = 'auto';
-        }
-      },
-    });
-
-    // Restore original styles
-    element.style.overflow = originalOverflow;
-    element.style.height = originalHeight;
-
-    // A4 dimensions in mm
-    const a4Width = 210;
-    const a4Height = 297;
-
-    // Calculate dimensions to fit A4
-    const imgWidth = a4Width;
-    const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-    // Create PDF
-    const pdf = new jsPDF({
-      orientation: imgHeight > a4Width ? 'portrait' : 'portrait',
-      unit: 'mm',
-      format: 'a4',
-      compress: true,
-    });
-
-    // Convert canvas to image
-    const imgData = canvas.toDataURL('image/jpeg', 0.95);
-
-    // Add image to PDF
-    let position = 0;
-    let heightLeft = imgHeight;
-
-    // Add first page
-    pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
-    heightLeft -= a4Height;
-
-    // Add additional pages if content is longer than one page
-    while (heightLeft > 0) {
-      position = heightLeft - imgHeight;
-      pdf.addPage();
-      pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
-      heightLeft -= a4Height;
-    }
-
-    // Save the PDF
-    pdf.save(`${fileName}.pdf`);
-  } catch (error) {
-    console.error('Error generating PDF:', error);
-    throw new Error(
-      `Failed to generate PDF: ${error instanceof Error ? error.message : 'Unknown error'}`
-    );
-  }
+  });
 }
 
 /**
- * Validates that the required element exists before attempting PDF export
- * @param elementId - The ID of the HTML element to check
- * @returns true if element exists, false otherwise
+ * Use browser print dialog (fallback)
+ */
+export function printCV(): void {
+  window.print();
+}
+
+/**
+ * Check if element exists
  */
 export function canExportToPDF(elementId: string): boolean {
-  return document.getElementById(elementId) !== null;
+  const element = document.getElementById(elementId);
+  return element !== null && element.offsetWidth > 0 && element.offsetHeight > 0;
 }
 
 /**
- * Gets the current date formatted as YYYY-MM-DD for file naming
- * @returns Formatted date string
+ * Format date as YYYY-MM-DD
  */
 export function getFormattedDate(): string {
   const now = new Date();
@@ -116,25 +126,17 @@ export function getFormattedDate(): string {
 }
 
 /**
- * Generates a default CV filename with the user's name and date
- * @param firstName - User's first name
- * @param lastName - User's last name
- * @returns Formatted filename
+ * Generate filename for CV
  */
-export function generateCVFileName(
-  firstName?: string,
-  lastName?: string
-): string {
+export function generateCVFileName(firstName?: string, lastName?: string): string {
   const date = getFormattedDate();
 
   if (firstName && lastName) {
-    const name = `${firstName}_${lastName}`.replace(/\s+/g, '_');
-    return `CV_${name}_${date}`;
+    return `CV_${firstName}_${lastName}_${date}`.replace(/\s+/g, '_');
   }
 
   if (firstName || lastName) {
-    const name = (firstName || lastName || '').replace(/\s+/g, '_');
-    return `CV_${name}_${date}`;
+    return `CV_${(firstName || lastName || '').replace(/\s+/g, '_')}_${date}`;
   }
 
   return `CV_${date}`;

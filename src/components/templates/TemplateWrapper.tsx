@@ -9,9 +9,10 @@ interface TemplateWrapperProps {
   data: CVData;
   templateType: TemplateType;
   config?: TemplateConfig;
+  id?: string;
 }
 
-export default function TemplateWrapper({ data, templateType, config }: TemplateWrapperProps) {
+export default function TemplateWrapper({ data, templateType, config, id }: TemplateWrapperProps) {
   const renderTemplate = () => {
     switch (templateType) {
       case 'modern':
@@ -29,7 +30,7 @@ export default function TemplateWrapper({ data, templateType, config }: Template
 
   return (
     <div
-      id="cv-preview"
+      id={id}
       className="cv-wrapper"
       style={{
         width: '210mm',

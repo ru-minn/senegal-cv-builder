@@ -3,6 +3,7 @@
 import { PersonalInfo } from '@/types/cv';
 import { Camera, User } from 'lucide-react';
 import { ChangeEvent, useRef } from 'react';
+import { useTranslations } from 'next-intl';
 
 export interface PersonalInfoFormProps {
   data: PersonalInfo;
@@ -10,6 +11,7 @@ export interface PersonalInfoFormProps {
 }
 
 export default function PersonalInfoForm({ data, onChange }: PersonalInfoFormProps) {
+  const t = useTranslations();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleChange = (field: keyof PersonalInfo, value: string) => {
@@ -34,8 +36,8 @@ export default function PersonalInfoForm({ data, onChange }: PersonalInfoFormPro
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">Informations Personnelles</h2>
-        <p className="text-gray-600 text-sm">Remplissez vos coordonnées</p>
+        <h2 className="text-2xl font-bold text-gray-800 mb-2">{t('sections.personalInfo')}</h2>
+        <p className="text-gray-600 text-sm">{t('form.fillYourDetails')}</p>
       </div>
 
       {/* Photo Upload */}
@@ -46,11 +48,11 @@ export default function PersonalInfoForm({ data, onChange }: PersonalInfoFormPro
             className="w-32 h-32 rounded-full border-4 border-gray-200 overflow-hidden bg-gray-100 cursor-pointer hover:border-blue-400 transition-colors flex items-center justify-center group"
           >
             {data.photo ? (
-              <img src={data.photo} alt="Photo de profil" className="w-full h-full object-cover" />
+              <img src={data.photo} alt={t('personalInfo.photo')} className="w-full h-full object-cover" />
             ) : (
               <div className="text-center">
                 <User className="w-12 h-12 text-gray-400 mx-auto group-hover:text-blue-500 transition-colors" />
-                <p className="text-xs text-gray-500 mt-1">Photo</p>
+                <p className="text-xs text-gray-500 mt-1">{t('personalInfo.photo')}</p>
               </div>
             )}
           </div>
@@ -75,26 +77,26 @@ export default function PersonalInfoForm({ data, onChange }: PersonalInfoFormPro
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Prénom <span className="text-red-500">*</span>
+            {t('common.firstName')} <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
             value={data.firstName}
             onChange={(e) => handleChange('firstName', e.target.value)}
-            placeholder="Votre prénom"
+            placeholder={t('form.yourFirstName')}
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow"
             required
           />
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Nom <span className="text-red-500">*</span>
+            {t('common.lastName')} <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
             value={data.lastName}
             onChange={(e) => handleChange('lastName', e.target.value)}
-            placeholder="Votre nom"
+            placeholder={t('form.yourLastName')}
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow"
             required
           />
@@ -105,7 +107,7 @@ export default function PersonalInfoForm({ data, onChange }: PersonalInfoFormPro
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Email <span className="text-red-500">*</span>
+            {t('common.email')} <span className="text-red-500">*</span>
           </label>
           <input
             type="email"
@@ -118,7 +120,7 @@ export default function PersonalInfoForm({ data, onChange }: PersonalInfoFormPro
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Téléphone <span className="text-red-500">*</span>
+            {t('common.phone')} <span className="text-red-500">*</span>
           </label>
           <input
             type="tel"
@@ -134,13 +136,13 @@ export default function PersonalInfoForm({ data, onChange }: PersonalInfoFormPro
       {/* Address */}
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
-          Adresse
+          {t('common.address')}
         </label>
         <input
           type="text"
           value={data.address}
           onChange={(e) => handleChange('address', e.target.value)}
-          placeholder="Numéro et nom de rue"
+          placeholder={t('form.streetAddress')}
           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow"
         />
       </div>
@@ -149,7 +151,7 @@ export default function PersonalInfoForm({ data, onChange }: PersonalInfoFormPro
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Ville
+            {t('common.city')}
           </label>
           <input
             type="text"
@@ -161,7 +163,7 @@ export default function PersonalInfoForm({ data, onChange }: PersonalInfoFormPro
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Code Postal
+            {t('common.postalCode')}
           </label>
           <input
             type="text"
@@ -173,7 +175,7 @@ export default function PersonalInfoForm({ data, onChange }: PersonalInfoFormPro
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Pays
+            {t('common.country')}
           </label>
           <input
             type="text"
@@ -189,7 +191,7 @@ export default function PersonalInfoForm({ data, onChange }: PersonalInfoFormPro
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Date de Naissance
+            {t('common.dateOfBirth')}
           </label>
           <input
             type="date"
@@ -200,7 +202,7 @@ export default function PersonalInfoForm({ data, onChange }: PersonalInfoFormPro
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Nationalité
+            {t('common.nationality')}
           </label>
           <input
             type="text"

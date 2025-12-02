@@ -73,43 +73,19 @@ export default function BuilderPage() {
   };
 
   const handleExperiencesChange = (data: typeof cvData.experiences) => {
-    // Replace all experiences with new data
-    cvData.experiences.forEach(exp => store.removeExperience(exp.id));
-    data.forEach(exp => {
-      if (!cvData.experiences.find(e => e.id === exp.id)) {
-        store.addExperience(exp);
-      }
-    });
+    store.setExperiences(data);
   };
 
   const handleEducationChange = (data: typeof cvData.education) => {
-    // Replace all education with new data
-    cvData.education.forEach(edu => store.removeEducation(edu.id));
-    data.forEach(edu => {
-      if (!cvData.education.find(e => e.id === edu.id)) {
-        store.addEducation(edu);
-      }
-    });
+    store.setEducation(data);
   };
 
   const handleSkillsChange = (data: typeof cvData.skills) => {
-    // Replace all skills with new data
-    cvData.skills.forEach(skill => store.removeSkill(skill.id));
-    data.forEach(skill => {
-      if (!cvData.skills.find(s => s.id === skill.id)) {
-        store.addSkill(skill);
-      }
-    });
+    store.setSkills(data);
   };
 
   const handleLanguagesChange = (data: typeof cvData.languages) => {
-    // Replace all languages with new data
-    cvData.languages.forEach(lang => store.removeLanguage(lang.id));
-    data.forEach(lang => {
-      if (!cvData.languages.find(l => l.id === lang.id)) {
-        store.addLanguage(lang);
-      }
-    });
+    store.setLanguages(data);
   };
 
 
@@ -214,8 +190,9 @@ export default function BuilderPage() {
       case 'preview':
         return (
           <div className="space-y-6">
-            <div className="bg-white rounded-xl shadow-lg p-4 overflow-auto max-h-[70vh]">
+            <div className="bg-white rounded-xl shadow-lg p-4 overflow-visible">
               <TemplateWrapper
+                id="cv-preview"
                 data={cvData}
                 templateType={selectedTemplate as 'modern' | 'classic' | 'minimal' | 'professional'}
                 config={{ accentColor: accentColorMap[accentColor] }}
@@ -427,6 +404,7 @@ export default function BuilderPage() {
                 </h3>
                 <div className="transform scale-[0.4] origin-top-left w-[250%] h-[600px] overflow-hidden">
                   <TemplateWrapper
+                    id="cv-sidebar-preview"
                     data={cvData}
                     templateType={selectedTemplate as 'modern' | 'classic' | 'minimal' | 'professional'}
                     config={{ accentColor: accentColorMap[accentColor] }}
@@ -450,6 +428,7 @@ export default function BuilderPage() {
             </div>
             <div className="transform scale-50 origin-top-left w-[200%]">
               <TemplateWrapper
+                id="cv-mobile-preview"
                 data={cvData}
                 templateType={selectedTemplate as 'modern' | 'classic' | 'minimal' | 'professional'}
                 config={{ accentColor: accentColorMap[accentColor] }}

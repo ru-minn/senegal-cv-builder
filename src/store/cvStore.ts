@@ -26,21 +26,25 @@ interface CVStore {
   updateObjective: (objective: string) => void;
 
   // Experience Actions
+  setExperiences: (experiences: Experience[]) => void;
   addExperience: (experience: Omit<Experience, 'id'>) => void;
   updateExperience: (id: string, experience: Partial<Experience>) => void;
   removeExperience: (id: string) => void;
 
   // Education Actions
+  setEducation: (education: Education[]) => void;
   addEducation: (education: Omit<Education, 'id'>) => void;
   updateEducation: (id: string, education: Partial<Education>) => void;
   removeEducation: (id: string) => void;
 
   // Skill Actions
+  setSkills: (skills: Skill[]) => void;
   addSkill: (skill: Omit<Skill, 'id'>) => void;
   updateSkill: (id: string, skill: Partial<Skill>) => void;
   removeSkill: (id: string) => void;
 
   // Language Actions
+  setLanguages: (languages: Language[]) => void;
   addLanguage: (language: Omit<Language, 'id'>) => void;
   updateLanguage: (id: string, language: Partial<Language>) => void;
   removeLanguage: (id: string) => void;
@@ -86,6 +90,14 @@ export const useCVStore = create<CVStore>()(
         })),
 
       // Experience Actions
+      setExperiences: (experiences) =>
+        set((state) => ({
+          cvData: {
+            ...state.cvData,
+            experiences,
+          },
+        })),
+
       addExperience: (experience) =>
         set((state) => ({
           cvData: {
@@ -116,6 +128,14 @@ export const useCVStore = create<CVStore>()(
         })),
 
       // Education Actions
+      setEducation: (education) =>
+        set((state) => ({
+          cvData: {
+            ...state.cvData,
+            education,
+          },
+        })),
+
       addEducation: (education) =>
         set((state) => ({
           cvData: {
@@ -146,6 +166,14 @@ export const useCVStore = create<CVStore>()(
         })),
 
       // Skill Actions
+      setSkills: (skills) =>
+        set((state) => ({
+          cvData: {
+            ...state.cvData,
+            skills,
+          },
+        })),
+
       addSkill: (skill) =>
         set((state) => ({
           cvData: {
@@ -173,6 +201,14 @@ export const useCVStore = create<CVStore>()(
         })),
 
       // Language Actions
+      setLanguages: (languages) =>
+        set((state) => ({
+          cvData: {
+            ...state.cvData,
+            languages,
+          },
+        })),
+
       addLanguage: (language) =>
         set((state) => ({
           cvData: {

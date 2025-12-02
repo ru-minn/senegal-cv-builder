@@ -1,6 +1,6 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { Link } from '@/i18n/routing';
 import {
   FileText,
@@ -11,8 +11,11 @@ import {
   CheckCircle,
 } from 'lucide-react';
 
+type LocaleType = 'fr' | 'en' | 'wo';
+
 export default function Home() {
   const t = useTranslations();
+  const locale = useLocale() as LocaleType;
 
   const features = [
     {
@@ -37,6 +40,12 @@ export default function Home() {
     },
   ];
 
+  const languages: { code: LocaleType; name: string; flag: string; borderColor: string; textColor: string; bgHover: string; bgActive: string }[] = [
+    { code: 'fr', name: 'Français', flag: '🇫🇷', borderColor: 'border-blue-500', textColor: 'text-blue-600', bgHover: 'hover:bg-blue-50', bgActive: 'bg-blue-100' },
+    { code: 'en', name: 'English', flag: '🇬🇧', borderColor: 'border-green-500', textColor: 'text-green-600', bgHover: 'hover:bg-green-50', bgActive: 'bg-green-100' },
+    { code: 'wo', name: 'Wolof', flag: '🇸🇳', borderColor: 'border-orange-500', textColor: 'text-orange-600', bgHover: 'hover:bg-orange-50', bgActive: 'bg-orange-100' },
+  ];
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
       {/* Header */}
@@ -48,28 +57,22 @@ export default function Home() {
               <span className="text-xl font-bold text-gray-900">CV Sénégal</span>
             </div>
 
-            <div className="flex items-center gap-2">
-              <Link
-                href="/"
-                locale="fr"
-                className="px-3 py-1.5 text-sm rounded-md hover:bg-blue-50 text-gray-700"
-              >
-                FR
-              </Link>
-              <Link
-                href="/"
-                locale="en"
-                className="px-3 py-1.5 text-sm rounded-md hover:bg-green-50 text-gray-700"
-              >
-                EN
-              </Link>
-              <Link
-                href="/"
-                locale="wo"
-                className="px-3 py-1.5 text-sm rounded-md hover:bg-orange-50 text-gray-700"
-              >
-                WO
-              </Link>
+            {/* Header Language Switcher */}
+            <div className="flex items-center gap-1">
+              {languages.map((lang) => (
+                <Link
+                  key={lang.code}
+                  href="/"
+                  locale={lang.code}
+                  className={`px-3 py-1.5 text-sm rounded-md transition-all font-medium ${
+                    locale === lang.code
+                      ? `${lang.bgActive} ${lang.textColor} ring-2 ring-offset-1 ${lang.borderColor.replace('border-', 'ring-')}`
+                      : `${lang.bgHover} text-gray-600`
+                  }`}
+                >
+                  {lang.code.toUpperCase()}
+                </Link>
+              ))}
             </div>
           </div>
         </div>
@@ -92,6 +95,7 @@ export default function Home() {
               {t('cv.subtitle')}
             </p>
 
+            {/* Main CTA Button - Goes to builder in current locale */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
                 href="/builder"
@@ -103,32 +107,38 @@ export default function Home() {
             </div>
 
             {/* Language Selection */}
-            <div className="mt-12 flex flex-wrap items-center justify-center gap-4">
-              <span className="text-gray-500">{t('common.chooseLanguage')}:</span>
-              <Link
-                href="/builder"
-                locale="fr"
-                className="flex items-center gap-2 px-5 py-2.5 bg-white border-2 border-blue-500 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors font-medium"
-              >
-                <span className="text-xl">🇫🇷</span>
-                Français
-              </Link>
-              <Link
-                href="/builder"
-                locale="en"
-                className="flex items-center gap-2 px-5 py-2.5 bg-white border-2 border-green-500 text-green-600 rounded-lg hover:bg-green-50 transition-colors font-medium"
-              >
-                <span className="text-xl">🇬🇧</span>
-                English
-              </Link>
-              <Link
-                href="/builder"
-                locale="wo"
-                className="flex items-center gap-2 px-5 py-2.5 bg-white border-2 border-orange-500 text-orange-600 rounded-lg hover:bg-orange-50 transition-colors font-medium"
-              >
-                <span className="text-xl">🇸🇳</span>
-                Wolof
-              </Link>
+            <div className="mt-12">
+              <p className="text-gray-500 mb-4">{t('common.chooseLanguage')}:</p>
+              <div className="flex flex-wrap items-center justify-center gap-3">
+                {languages.map((lang) => {
+                  const isActive = locale === lang.code;
+                  return (
+                    <Link
+                      key={lang.code}
+                      href="/"
+                      locale={lang.code}
+                      className={`flex items-center gap-2 px-5 py-2.5 border-2 rounded-lg transition-all font-medium ${
+                        isActive
+                          ? `${lang.borderColor} ${lang.textColor} ${lang.bgActive} ring-2 ring-offset-2 ${lang.borderColor.replace('border-', 'ring-')} shadow-md scale-105`
+                          : `border-gray-200 text-gray-600 bg-white ${lang.bgHover}`
+                      }`}
+                    >
+                      <span className="text-xl">{lang.flag}</span>
+                      {lang.name}
+                      {isActive && (
+                        <CheckCircle className={`w-4 h-4 ${lang.textColor}`} />
+                      )}
+                    </Link>
+                  );
+                })}
+              </div>
+
+              {/* Current language indicator */}
+              <p className="mt-4 text-sm text-gray-500">
+                {locale === 'fr' && '✓ Français sélectionné'}
+                {locale === 'en' && '✓ English selected'}
+                {locale === 'wo' && '✓ Wolof tànnal na'}
+              </p>
             </div>
           </div>
         </section>
